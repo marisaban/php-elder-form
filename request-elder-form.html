@@ -1,0 +1,274 @@
+<!--This is hidden information at the top of the page that provides details to the browser and helps with search optimization-->
+	<meta name="keywords" content="Indigenous Education & Community Connections, IECC, Aboriginal Education & Community Connections, AECC, aboriginal, access, first nations, native, services, support, welcome, territory acknowledgement, logo, Na'tsa'maht, elders, cultural support, financial support, educational support, abe, college prep, upgrade, Aboriginal in Trades, Aboriginal Academic Upgrading, Indigenous Access, Indigenous Business Leadership, Indigenous College Prep, Indigenous Human Services Career Access, Indigenous Family Support, Indigenous Health Care Assistant, Indigenous Studies">
+		<!--Can be the same for every page in the section. Think of words that people would use when searching for this page.-->
+		
+		<meta name="description" content="Every year, IECC is involved in a number of projects and events intended to enhance Aboriginal student success and encourage community development. " />
+		<!--This is a description of the page content. Use the lead paragraph again for simplicity (make sure your lead paragraphs are descriptive.-->
+		<meta name="camtemplate" content="minimalist" />
+		<!--Don't change or delete this-->
+		
+		<title>Request an Elder - Centre for Indigenous Education & Community Connections - Camosun College</title>
+		<!--Enter the page title here. The order is most specific to least specific.-->
+		
+		<!-- validation scripts -->
+		<script type="text/javascript" src="/js/jquery.js"></script>
+		<script type="text/javascript" src="/js/jquery.validate.js"></script>
+		<script type="text/javascript" src="/js/forms.js"></script>
+
+		<script type="text/javascript">
+			$(document).ready(function(){
+				//client side
+				$("#req-elder").validate({
+					rules: {
+						Name: {
+							required: true
+						},
+						Purpose: {
+							required: true
+						},
+						Date: {
+							required: true
+						},
+						Time: {
+							required: true
+						},
+						Location: {
+							required: true
+						},
+						Parking: {
+							required: true
+						}
+					},
+					errorElement: "span",
+					errorClass: "help-inline",
+					highlight: function(element, errorClass) {
+						$(element).closest('div.control-group').addClass('error');
+					},
+					unhighlight: function(element, errorClass) {
+						$(element).closest('div.control-group').removeClass('error');
+					},
+					errorPlacement: function(error, element) {
+						if(element.attr('name') == 'Parking')
+						{
+							error.insertAfter('label[for="full"]');
+						}
+					},
+					messages: {
+						Name: "Enter name of event, program and/or course",
+						Purpose: "Enter the purpose",
+						Date: "Enter your date in MM/DD/YY format",
+						Time: "Enter your time",
+						Location: "Enter your location",
+						Parking: "At least one option must be selected",
+					}
+				});
+					$('#date').Zebra_DatePicker({
+						format: 'Y-m-d',
+						readonly_element: false,
+						show_icon: false
+						});
+					//might be missing }); but don't think so
+			})
+		</script>
+
+		<?php
+		require_once($_SERVER['DOCUMENT_ROOT'].'/_include/form-validator.php');
+
+		$fv = new FormValidator();
+
+		//server side validation of required fields
+		if ($fv->isPosted()){ 
+			$fv->validateRequired("Name", "Enter the name"); 
+			$fv->validateRequired("Purpose", "Enter the purpose"); 
+			$fv->validateRequired("Date", "Enter the date requested"); 
+			$fv->validateRequired("Time", "Enter your start and finish time"); 
+			$fv->validateRequired("Location", "Enter your location"); 
+			$fv->validateRequired("Parking", "Enter your parking");  
+		} 
+
+		?>
+
+		<div id="content">
+			<div id="page-banner">
+				<!--Required.-->
+				<div class="hero-unit sub-page">
+					<div class="blurb">
+						<h1>Indigenous Education & Community Connections</h1>
+						<h2>Request an Elder</h2>
+					</div>
+				</div>
+			</div>
+			<div id="page-second-level-nav">
+				<?php require_once('../_include/second-level-nav.inc.php'); ?>
+			</div>
+			<div id="page-introduction">
+			  <div id="page-third-level-nav">
+
+				  <!--Required. Must be adjusted for the program – how many years or terms, etc. (php file) -->
+				  <?php require_once('_include/third-level-nav.inc.php'); ?>
+				</div>
+				<?php if ( !($fv->isPosted()) || $fv->errorExists() ) ?>
+				<p class="lead">The Elders' Voices and Elders in Residence programs ensure that Indigenous students and the college community can benefit from the knowledge and guidance of these important community members.</p>
+				
+		  </div>
+			<div class="section">
+			<div class="row">
+			<div class="span9">
+<?php
+//server side error display
+if ($fv->errorExists()){
+	$errors = $fv->getErrorList();
+	echo ('<div class="alert alert-block alert-error">');
+	echo ('<h4>Please correct the following errors</h4>');
+	echo ('<ul>');
+	foreach ($errors as $e){
+		echo ('<li>'.$e['message'].'</li>');
+	}   
+	echo ('</ul>');
+	echo ('</div>');
+}
+?>
+
+				<form class="form-horizontal bootstrap" id="req-elder" method="post" action="<?=$_SERVER['PHP_SELF']?>">
+				<fieldset>
+
+				<!-- Form Name -->
+				<legend>Request an Elder</legend>
+
+				<!-- Text input-->
+					<div class="control-group">
+					<label class="control-label">Name of event, program and/or course</label>
+					<div class="controls">
+				    <input id="Name" name="Name" type="text" class="span3" required="" value="<?php $fv->repopulateText('Name'); ?>" placeholder="First and last">
+					</div>
+				</div>
+
+				<!-- Text input-->
+					<div class="control-group">
+					<label class="control-label">Purpose</label>
+					<div class="controls">
+				    <input id="Purpose" name="Purpose" type="text" class="span3" required="" value="<?php $fv->repopulateText('Purpose'); ?>" placeholder="What's the purpose?">
+					</div>
+				</div>
+
+				<!-- Text input-->
+					<div class="control-group">
+					<label class="control-label">Date YYYY/MM/DD</label>
+					<div class="controls">
+				    <input id="Date" name="Date" type="text" class="span2" required="" value="<?php $fv->repopulateText('Date'); ?>" placeholder="YYYY-MM-DD">
+					</div>
+				</div>
+
+				<!-- Text input-->
+					<div class="control-group">
+					<label class="control-label">Time (start and finish)</label>
+					<div class="controls">
+				    <input id="Time" name="Time" type="text" class="span2" required="" value="<?php $fv->repopulateText('Time'); ?>" placeholder="i.e. 12:00 - 13:00">
+					</div>
+				</div>
+
+				<!-- Text input-->
+					<div class="control-group">
+					<label class="control-label">Location</label>
+					<div class="controls">
+				    <input id="Location" name="Location" type="text" class="span3" required="" value="<?php $fv->repopulateText('Location'); ?>" placeholder="i.e. Campus, Building, Room #">
+					</div>
+				</div>
+
+				<!-- Multiple Radios -->
+					<div class="control-group">
+					<label class="control-label" for="parking">Parking</label>
+					<div class="controls">
+				    <label class="radio" for="half">
+					<input type="radio" name="Parking" id="half" value="Half Day" <?php $fv->repopulateCheckbox('half', 'Half Day'); ?>>
+					Half Day
+				    </label>
+				    <label class="radio" for="full">
+					<input type="radio" name="Parking" id="full" value="Full Day"<?php $fv->repopulateCheckbox('full', 'Full'); ?>> 
+					Full Day
+				    </label>
+					</div>
+				</div>
+					
+				<!-- Textarea -->
+					<div class="control-group">
+					<label class="control-label">Comments</label>
+					<div class="controls">
+				    <textarea id="Comments" name="Comments"></textarea>
+					</div>
+				</div>
+					
+				</fieldset>
+				<div class="form-actions">
+						<input type="submit" name="submit" value="Submit" id="submit" class="btn btn-large btn-info">
+					</div>
+				</form>
+
+<?php if ( $fv->isPosted() ){
+	#error_reporting(0);
+	require_once($_SERVER['DOCUMENT_ROOT'].'/_include/mailer/class.phpmailer.php');
+
+	$mailer=	new phpmailer();
+
+    $tmailBody=		'<html><head><style>';
+    $tmailBody.=	'body { font-family:arial, verdana, helvetica, sans-serif; }';
+    $tmailBody.=	'table { border:1px solid #666; border-collapse:collapse; width:600px; }';
+    $tmailBody.=	'th { border:1px solid #666; background-color:#eee; font-weight:bold; padding:5px; text-align:right; width: 125px; }';
+    $tmailBody.=	'td { border:1px solid #666; padding:5px; text-align:left; }';
+    $tmailBody.=	'h2 {  }';
+    $tmailBody.=	'h3 {  }';
+    $tmailBody.=	'p.technical { font-size:.8em; }';
+    $tmailBody.=	'</style></head><body>';
+    
+	$tmailBody.=	"<h2>Request for Elder</h2>";
+	$tmailBody.=	"<table>";    
+	$tmailBody.=	"<tr><th>Name</th><td> ".$fv->getValueClean("Name")."</td></tr>";
+	$tmailBody.=	"<tr><th>Purpose</th><td> ".$fv->getValueClean("Purpose")."</td></tr>";
+	$tmailBody.=	"<tr><th>Date</th><td> ".$fv->getValueClean("Date")."</td></tr>";
+	$tmailBody.=	"<tr><th>Time</th><td> ".$fv->getValueClean("Time")."</td></tr>";
+    $tmailBody.=	"<tr><th>Location</th><td> ".$fv->getValueClean("Location")."</td></tr>";
+	$tmailBody.=	"<tr><th>Parking</th><td> ".$fv->getValueClean("Parking")."</td></tr>";
+	$tmailBody.=	"<tr><th>Comments</th><td> ".$fv->getValueClean("Comments")."</td></tr>";
+   
+    $tmailBody.=	"</table>";
+	$tmailBody.=	"<hr />";
+	$tmailBody.=	"<p class=\"technical\">Form: ".$_SERVER['HTTP_REFERER']."<br>\n";
+	$tmailBody.=	"Submitted: ".date("d-M-Y g:i a")."<br>\n";
+	$tmailBody.=	'Browser: '.$_SERVER['HTTP_USER_AGENT']."<br>\n";
+	$tmailBody.=	'IP: '.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT']."</p>\n";
+
+#	$mailer->AddAddress("plantew@camosun.bc.ca", "CE Call Back Form");
+	$mailer->AddAddress("jangr@camosun.bc.ca", "IECC - Request for Elder");
+	//redirect
+	header('Location: contact-formsuccess.html');	
+#	$mailer->AddAddress("cecallback@camosun.bc.ca", "CE Call Back Form");	
+	$mailer->From=		"do_not_reply@camosun.bc.ca";
+	$mailer->FromName=	"Do Not Reply";
+	$mailer->Subject=	"IECC - Request for Elder";
+	$mailer->Body=		$tmailBody;
+	$mailer->WordWrap=	78;
+	$mailer->IsSMTP(); // telling  the class to use SMTP
+    $mailer->Host=      "192.168.77.97"; //SMTP server 
+    $mailer->ContentType= "text/html";
+    
+	if(!$mailer->Send())
+	{
+		print "\t<p>There was a problem sending your application. The error was:<br/><code>".$mailer->ErrorInfo."</code></p>\n";
+		print "\t<p>Please send an email directly to <a href=\"mailto:feedback@camosun.bc.ca\">feedback@camosun.bc.ca</a>
+				with the error as the body of the message.</p>\n";
+	}
+	
+				
+ } ?>
+				
+            </div>
+				<div class="span3"><img src="/learn/school/indigenous-education-community-connections/images/side-banners/fern-22691335226_6dd5b4fe9a_k-vertical.jpg" width="250" height="617" alt=""/></div>
+			  </div>
+			</div>
+			<div id="page-footer">
+				<!--Required. Links to AoS--> 
+				<h2>Elders at Camosun</h2>
+				<p class="lead">Fulfilling the role of grandparent to Indigenous students who are studying away from home.</p>
+				<a href="/learn/school/indigenous-education-community-connections/elders/history.html" class="btn btn-large btn-info pull-right">Learn more →</a>
+			</div>
+		</div>
